@@ -38,7 +38,7 @@ public class AuthService {
     public ResponseEntity<String> userLogin(User user) {
        User user1= authRepo.findById(user.getUserId()).orElse(null);
        if (user1==null){
-           return new ResponseEntity<>("user not found",HttpStatus.UNAUTHORIZED);
+           return new ResponseEntity<>("User not found",HttpStatus.UNAUTHORIZED);
        }
        if (!encoder.matches(user.getPassword(),user1.getPassword())){
            return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
