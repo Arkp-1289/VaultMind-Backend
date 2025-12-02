@@ -9,5 +9,4 @@ public class MySecretVaultApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MySecretVaultApplication.class, args);
 	}
-
 }
