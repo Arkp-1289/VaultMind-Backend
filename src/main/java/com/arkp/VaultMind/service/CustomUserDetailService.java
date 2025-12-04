@@ -27,4 +27,9 @@ public class CustomUserDetailService  implements UserDetailsService {
         );
 
     }
+
+    public User getUserEntityByUsername(String username) {
+        return authRepo.findById(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+    }
 }

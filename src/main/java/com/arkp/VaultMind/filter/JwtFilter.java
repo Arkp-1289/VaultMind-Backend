@@ -1,6 +1,7 @@
 package com.arkp.VaultMind.filter;
 
 
+import com.arkp.VaultMind.model.User;
 import com.arkp.VaultMind.service.CustomUserDetailService;
 import com.arkp.VaultMind.service.JwtService;
 import jakarta.servlet.FilterChain;
@@ -44,11 +45,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (userName!=null && SecurityContextHolder.getContext().getAuthentication()==null){
             UserDetails userDetails= userDetailService.loadUserByUsername(userName);
+            System.out.println("userdetails: "+userDetails.getUsername());
 
-            if (jwtService.isValidToken(token)){
+            if (jwtService.isValidToken(token,userDetails)){
                 System.out.println("valid: "+ " True");
+                User user=  userDetailService.getUserEntityByUsername(userName);
                 UsernamePasswordAuthenticationToken authToken=
-                        new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(user,null,userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }

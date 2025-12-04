@@ -9,8 +9,8 @@ import jakarta.persistence.Table;
 @Table(name = "users")
 public class User {
     @Id
-    private  String userId;
-    private  String password;
+        private  String userId;
+        private  String password;
 
     public String getPassword() {
         return password;
