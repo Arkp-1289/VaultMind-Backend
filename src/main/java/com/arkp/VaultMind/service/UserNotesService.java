@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class UserNotesService {
@@ -26,5 +28,10 @@ public class UserNotesService {
 
 
         return new ResponseEntity<>(userNotes, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<UserNotesRequest>> getNotes(User loggedUser) {
+        List<UserNotesRequest> notesList= userNotesRepo.findByuser(loggedUser);
+        return new ResponseEntity<>(notesList,HttpStatus.OK);
     }
 }
