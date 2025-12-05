@@ -34,6 +34,8 @@ public class UserNotes {
         this.updatedAt=LocalDate.now();
     }
 
+
+    @PreUpdate
     public void preupdate(){
         this.updatedAt=LocalDate.now();
     }
