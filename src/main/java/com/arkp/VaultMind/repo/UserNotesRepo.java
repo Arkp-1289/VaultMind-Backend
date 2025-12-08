@@ -1,15 +1,26 @@
 package com.arkp.VaultMind.repo;
 
-import com.arkp.VaultMind.dto.UserNotesRequest;
+import com.arkp.VaultMind.dto.UserNotesDto;
 import com.arkp.VaultMind.model.User;
 import com.arkp.VaultMind.model.UserNotes;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
+import java.beans.Transient;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserNotesRepo  extends JpaRepository<UserNotes,Integer> {
-    List<UserNotesRequest> findByuser(User loggedUser);
+    List<UserNotesDto> findByuser(User loggedUser);
+
+    @Modifying
+    @Transactional
+    int deleteByIdAndUser(int id, User loggedUser );
+
+
+   Optional< UserNotes> findByIdAndUser(int noteId, User loggedUser);
 }

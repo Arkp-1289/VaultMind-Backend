@@ -57,7 +57,6 @@ public class AuthController {
        }
        return new ResponseEntity<>("Login Failed",HttpStatus.NOT_ACCEPTABLE);
 
-
     }
 
 }

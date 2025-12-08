@@ -1,6 +1,7 @@
 package com.arkp.VaultMind.service;
 
 import com.arkp.VaultMind.dto.UserNotesRequest;
+import com.arkp.VaultMind.dto.UserNotesDto;
 import com.arkp.VaultMind.model.User;
 import com.arkp.VaultMind.model.UserNotes;
 import com.arkp.VaultMind.repo.UserNotesRepo;
@@ -30,8 +31,24 @@ public class UserNotesService {
         return new ResponseEntity<>(userNotes, HttpStatus.OK);
     }
 
-    public ResponseEntity<List<UserNotesRequest>> getNotes(User loggedUser) {
-        List<UserNotesRequest> notesList= userNotesRepo.findByuser(loggedUser);
+    public ResponseEntity<List<UserNotesDto>> getNotes(User loggedUser) {
+        List<UserNotesDto> notesList= userNotesRepo.findByuser(loggedUser);
         return new ResponseEntity<>(notesList,HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> deleteNotes(int id, User loggedUser) {
+        int rows_effected=  userNotesRepo.deleteByIdAndUser(id,loggedUser);
+        if (rows_effected==0){return new ResponseEntity<>("Note not found or Not owned by user ",HttpStatus.NOT_ACCEPTABLE);}
+        return new ResponseEntity<>("Deleted Successfully",HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> updateNotes(UserNotesDto updateNote ,User loggedUser) {
+        int note_id= updateNote.getId();
+        UserNotes userNotes= userNotesRepo.findByIdAndUser(note_id,loggedUser).orElseThrow();
+        userNotes.setTitle(updateNote.getTitle());
+        userNotes.setContent(updateNote.getContent());
+        userNotesRepo.save(userNotes);
+        return new ResponseEntity<>("Changes Saved",HttpStatus.OK);
+
     }
 }

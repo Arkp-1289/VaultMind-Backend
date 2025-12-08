@@ -47,7 +47,7 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws  Exception{
-        httpSecurity.csrf(csrf->csrf.disable())
+        httpSecurity.csrf(csrf->csrf.disable())   // for jwt stateless
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers("/user/register","/user/login").permitAll()
                         .anyRequest().authenticated())
