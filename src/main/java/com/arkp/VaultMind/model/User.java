@@ -11,6 +11,24 @@ public class User {
         @Id
         private  String userId;
         private  String password;
+        private String hashKey;
+        private String salt;
+
+    public String getHashKey() {
+        return hashKey;
+    }
+
+    public void setHashKey(String hashKey) {
+        this.hashKey = hashKey;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
     public String getPassword() {
         return password;
@@ -33,6 +51,8 @@ public class User {
         return "User{" +
                 "userId='" + userId + '\'' +
                 ", password='" + password + '\'' +
+                ", hashKey='" + hashKey + '\'' +
+                ", salt='" + salt + '\'' +
                 '}';
     }
 }
