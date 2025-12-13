@@ -48,7 +48,7 @@ public class VaultController {
         try {
             return vaultService.resetKey(loggedUser,masterKey.trim());
         } catch (Exception e) {
-            return  new ResponseEntity<>("Something went wrong in reset",HttpStatus.NOT_ACCEPTABLE);
+            return  new ResponseEntity<>("Something went wrong in reset",HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -83,7 +83,7 @@ public class VaultController {
         try {
             return vaultService.getVaultById(loggedUser,id,masterKey);
         } catch (Exception e) {
-            return new ResponseEntity<>("Wrong Id or not owned by user", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("Wrong Id or not owned by user", HttpStatus.UNAUTHORIZED);
         }
     }
 

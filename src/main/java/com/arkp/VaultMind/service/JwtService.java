@@ -57,7 +57,6 @@ SecretKey secretKey = Keys.hmacShaKeyFor("your-32-char-or-longer-secret-key".get
                   .getPayload();
           System.out.println(claims.getSubject()+" "+userDetails.getUsername());
       if (claims.getSubject().equals(userDetails.getUsername()) && !(isExpired(claims))){
-          System.out.println("valid token");
           return  true;}
       return false;
 //            return claims.getExpiration().before(new Date());
@@ -67,7 +66,6 @@ SecretKey secretKey = Keys.hmacShaKeyFor("your-32-char-or-longer-secret-key".get
     }
 
     private boolean isExpired(Claims claims) {
-        System.out.println("expiration: "+claims.getExpiration().before(new Date()));
        return  claims.getExpiration().before(new Date());
 
     }

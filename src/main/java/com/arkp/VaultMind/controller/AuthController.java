@@ -34,13 +34,13 @@ public class AuthController {
     @PostMapping("register")
     public ResponseEntity<String> userRegister(@RequestBody RegisterRequest registerRequest){
         if (!registerRequest.getPassword().equals(registerRequest.getConfirmPassword())){
-            return new ResponseEntity<>("Both Passwords should match", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("Both Passwords should match", HttpStatus.UNAUTHORIZED);
         }
 
         User user1= authService.userRegister(registerRequest);
 
         if (user1==null){
-          return  new ResponseEntity<>("UserId  already exists",HttpStatus.NOT_ACCEPTABLE);
+          return  new ResponseEntity<>("UserId  already exists",HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>("Account created Successfully",HttpStatus.OK);
     }
@@ -55,7 +55,7 @@ public class AuthController {
            String jwtToken = jwtService.generateToken(user.getUserId());
            return new ResponseEntity<>(jwtToken,HttpStatus.OK);
        }
-       return new ResponseEntity<>("Login Failed",HttpStatus.NOT_ACCEPTABLE);
+       return new ResponseEntity<>("Login Failed",HttpStatus.UNAUTHORIZED);
 
     }
 

@@ -48,20 +48,18 @@ public class VaultService {
             String newSalt =VaultUtil.generateSalt();
             List<UserVault> VaultList = new ArrayList<>();
             VaultList=vaultRepo.findAllByUser(loggedUser).orElseThrow();
-            System.out.println("old vaults: "+VaultList);
             for (UserVault dto:VaultList){
                 String decrypt_pwd=VaultUtil.decrypt(dto.getPassword(),masterKey,loggedUser.getSalt());
                 String encrypt_pwd=VaultUtil.encrypt(decrypt_pwd,newKey,newSalt);
                 dto.setPassword(encrypt_pwd);
             }
-            System.out.println("new vaults: "+VaultList);
             loggedUser.setSalt(newSalt);
             loggedUser.setHashKey(hashedKey);
             vaultRepo.saveAll(VaultList);
             authRepo.save(loggedUser);
             return new ResponseEntity<>(hashedKey, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("Something went wrong", HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -69,8 +67,7 @@ public class VaultService {
     public ResponseEntity<String> setVault(User loggedUser, VaultReqDto vaultReqDto,String masterKey) throws Exception {
 
         if (!verifyKey(vaultReqDto.getMasterKey(),loggedUser.getHashKey())){
-            System.out.println(masterKey+" "+vaultReqDto.getMasterKey());
-            return new ResponseEntity<>("Incorrect key--"+loggedUser.getHashKey()+" "+masterKey,HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("Incorrect key",HttpStatus.UNAUTHORIZED);
         }
         try {
             String encryptedPassword = VaultUtil.encrypt(vaultReqDto.getPassword(), masterKey, loggedUser.getSalt());
@@ -82,7 +79,7 @@ public class VaultService {
 
             return new ResponseEntity<>("Vault Created", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("Something went wrong", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("Something went wrong", HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -98,19 +95,16 @@ public class VaultService {
 
         UserVault vault =  vaultRepo.findByIdAndUser(id,loggedUser).orElseThrow();
         String DecryptedPassword=VaultUtil.decrypt(vault.getPassword(),masterKey,loggedUser.getSalt());
-        System.out.println("dpwd "+ DecryptedPassword);
         return new ResponseEntity<>(DecryptedPassword,HttpStatus.OK);
     }
 
     public ResponseEntity<String> resetKey(User loggedUser,String masterKey) {
 
-
         int rows_effected= vaultRepo.deleteByUser(loggedUser);
-        System.out.println("deleted");
         loggedUser.setHashKey(hashKey(masterKey));
         loggedUser.setSalt(VaultUtil.generateSalt());
         authRepo.save(loggedUser);
-        return new ResponseEntity<>("key reset successful: "+loggedUser.getHashKey(),HttpStatus.OK);
+        return new ResponseEntity<>("key reset successful",HttpStatus.OK);
     }
 
     public User checkUser(User loggedUser) {

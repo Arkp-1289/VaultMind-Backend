@@ -54,7 +54,7 @@ public class UserNotesController {
         try {
            return userNotesService.updateNotes(userNote, loggedUser);
         } catch (Exception e){
-            return new ResponseEntity<>("note not found or Not owned by user",HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("note not found or Not owned by user",HttpStatus.UNAUTHORIZED);
         }
     }
 

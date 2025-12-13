@@ -38,7 +38,7 @@ public class UserNotesService {
 
     public ResponseEntity<String> deleteNotes(int id, User loggedUser) {
         int rows_effected=  userNotesRepo.deleteByIdAndUser(id,loggedUser);
-        if (rows_effected==0){return new ResponseEntity<>("Note not found or Not owned by user ",HttpStatus.NOT_ACCEPTABLE);}
+        if (rows_effected==0){return new ResponseEntity<>("Note not found or Not owned by user ",HttpStatus.UNAUTHORIZED);}
         return new ResponseEntity<>("Deleted Successfully",HttpStatus.OK);
     }
 
