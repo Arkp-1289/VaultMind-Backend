@@ -111,4 +111,10 @@ public class VaultService {
         User freshUser = authRepo.findById(loggedUser.getUserId()).orElseThrow();
         return freshUser;
     }
+
+    public ResponseEntity<String> deleteVault(User loggedUser, int id) {
+        UserVault vault = vaultRepo.findByIdAndUser(id,loggedUser).orElseThrow();
+        vaultRepo.deleteById(id);
+        return new ResponseEntity<>("ID deleted",HttpStatus.OK);
+    }
 }

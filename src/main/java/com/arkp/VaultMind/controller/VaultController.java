@@ -26,11 +26,6 @@ public class VaultController {
 
     @PostMapping("/key")
     public ResponseEntity<String> UpdateMasterKey(@AuthenticationPrincipal User loggedUser, @RequestBody UpdateKeyReqDto updateKeyReqDto){
-        try{
-          loggedUser=  vaultService.checkUser(loggedUser);
-        } catch (Exception e) {
-            return new ResponseEntity<>("User not found",HttpStatus.UNAUTHORIZED);
-        }
         try {
             return  vaultService.setkey(loggedUser,updateKeyReqDto.getOldKey().trim(), updateKeyReqDto.getNewKey().trim());
         } catch (Exception e) {
@@ -40,11 +35,6 @@ public class VaultController {
 
     @PostMapping("/reset/key")
     public ResponseEntity<String> resetMasterKey(@AuthenticationPrincipal User loggedUser,@RequestBody String masterKey){
-        try{
-            loggedUser=  vaultService.checkUser(loggedUser);
-        } catch (Exception e) {
-            return new ResponseEntity<>("User not found",HttpStatus.UNAUTHORIZED);
-        }
         try {
             return vaultService.resetKey(loggedUser,masterKey.trim());
         } catch (Exception e) {
@@ -55,36 +45,29 @@ public class VaultController {
 
     @PostMapping("/data")
     public ResponseEntity<String> setVault(@AuthenticationPrincipal User loggedUser, @RequestBody VaultReqDto vaultReqDto) throws Exception {
-        try{
-            loggedUser=  vaultService.checkUser(loggedUser);
-        } catch (Exception e) {
-            return new ResponseEntity<>("User not found",HttpStatus.UNAUTHORIZED);
-        }
         return vaultService.setVault(loggedUser,vaultReqDto,vaultReqDto.getMasterKey().trim());
     }
 
     @GetMapping("/data")
     public ResponseEntity<List<VaultResDto>> getVault(@AuthenticationPrincipal User loggedUser){
-        try{
-            loggedUser=  vaultService.checkUser(loggedUser);
-        } catch (Exception e) {
-            return new ResponseEntity<>((HttpHeaders) null,HttpStatus.UNAUTHORIZED);
-        }
         return vaultService.getVaults(loggedUser);
     }
 
     @PostMapping("/data/{id}")
     public ResponseEntity<String> getVaultById(@AuthenticationPrincipal User loggedUser,@PathVariable int id, @RequestBody String masterKey) throws Exception {
-        try{
-            loggedUser=  vaultService.checkUser(loggedUser);
-        } catch (Exception e) {
-            return new ResponseEntity<>("User not found",HttpStatus.UNAUTHORIZED);
-        }
         try {
             return vaultService.getVaultById(loggedUser,id,masterKey);
         } catch (Exception e) {
             return new ResponseEntity<>("Wrong Id or not owned by user", HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @DeleteMapping("/delete")
+   public ResponseEntity<String> deleteVault(@AuthenticationPrincipal User loggedUser,@RequestBody int id){
+        try {
+            return vaultService.deleteVault(loggedUser,id);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Wrong Id or not owned by user", HttpStatus.UNAUTHORIZED);        }
     }
 
 }
