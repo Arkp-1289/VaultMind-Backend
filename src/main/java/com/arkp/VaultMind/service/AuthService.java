@@ -6,7 +6,6 @@ import com.arkp.VaultMind.model.User;
 import com.arkp.VaultMind.repo.AuthRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,5 +44,9 @@ public class AuthService {
        }
        return new ResponseEntity<>("Login Successful", HttpStatus.OK);
 
+    }
+
+    public User getUser(String userId) {
+        return authRepo.findById(userId).orElseThrow();
     }
 }

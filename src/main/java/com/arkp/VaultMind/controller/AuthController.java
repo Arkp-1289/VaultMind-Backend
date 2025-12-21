@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/user")
 public class AuthController {
@@ -46,14 +49,22 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<String> userLogin(@RequestBody LoginRequest user){
+    public ResponseEntity<?> userLogin(@RequestBody LoginRequest user){
 //      return authService.userLogin(user);
+        System.out.println("login entered");
        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getUserId(),user.getPassword())
         );
        if (authentication.isAuthenticated()){
            String jwtToken = jwtService.generateToken(user.getUserId());
-           return new ResponseEntity<>(jwtToken,HttpStatus.OK);
+           System.out.println("jwt token: "+jwtToken);
+           User user1;
+           try {
+                user1 = authService.getUser(user.getUserId());
+           } catch (Exception e) {
+               return new ResponseEntity<String>("Something went wrong",HttpStatus.UNAUTHORIZED);
+           }
+           return ResponseEntity.status(HttpStatus.OK).body(Map.of("token",jwtToken,"user", Map.of("id",user1.getUserId(),"hash",user1.getHashKey()==null?"":user1.getHashKey())));
        }
        return new ResponseEntity<>("Login Failed",HttpStatus.UNAUTHORIZED);
 

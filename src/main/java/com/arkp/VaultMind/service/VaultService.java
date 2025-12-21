@@ -1,5 +1,6 @@
 package com.arkp.VaultMind.service;
 
+import com.arkp.VaultMind.dto.UpdateVaultReqDto;
 import com.arkp.VaultMind.dto.VaultReqDto;
 import com.arkp.VaultMind.dto.VaultResDto;
 import com.arkp.VaultMind.model.User;
@@ -43,7 +44,6 @@ public class VaultService {
             return new ResponseEntity<>("Key is incorrect!", HttpStatus.OK);
         }
         try {
-
             String hashedKey = hashKey(newKey);
             String newSalt =VaultUtil.generateSalt();
             List<UserVault> VaultList = new ArrayList<>();
@@ -89,6 +89,7 @@ public class VaultService {
     }
 
       public ResponseEntity<String> getVaultById(User loggedUser, int id, String masterKey) throws Exception {
+        System.out.println("masterkey: "+masterKey);
         if (!verifyKey(masterKey,loggedUser.getHashKey())){
             return new ResponseEntity<>("Incorrect key",HttpStatus.UNAUTHORIZED);
         }
@@ -104,7 +105,7 @@ public class VaultService {
         loggedUser.setHashKey(hashKey(masterKey));
         loggedUser.setSalt(VaultUtil.generateSalt());
         authRepo.save(loggedUser);
-        return new ResponseEntity<>("key reset successful",HttpStatus.OK);
+        return new ResponseEntity<>(loggedUser.getHashKey(),HttpStatus.OK);
     }
 
     public User checkUser(User loggedUser) {
@@ -116,5 +117,23 @@ public class VaultService {
         UserVault vault = vaultRepo.findByIdAndUser(id,loggedUser).orElseThrow();
         vaultRepo.deleteById(id);
         return new ResponseEntity<>("ID deleted",HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> setVault1(User loggedUser, UpdateVaultReqDto updateVaultDto) {
+        System.out.println("inside vault1");
+        if (!verifyKey(updateVaultDto.getMasterKey(),loggedUser.getHashKey())){
+            return new ResponseEntity<>("Incorrect key",HttpStatus.UNAUTHORIZED);
+        }
+        UserVault vault1= vaultRepo.findByIdAndUser(updateVaultDto.getId(),loggedUser).orElseThrow();
+
+        try {
+            String encryptedPassword = VaultUtil.encrypt(updateVaultDto.getPassword(), updateVaultDto.getMasterKey(), loggedUser.getSalt());
+            vault1.setPassword(encryptedPassword);
+            vaultRepo.save(vault1);
+
+            return new ResponseEntity<>("Vault Created", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong", HttpStatus.UNAUTHORIZED);
+        }
     }
 }

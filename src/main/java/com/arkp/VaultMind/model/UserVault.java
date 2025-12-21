@@ -6,11 +6,16 @@ import org.springframework.cglib.core.Local;
 import java.time.LocalDate;
 
 @Entity
+@Table(
+        name = "user_vault",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"name","user_id"})
+        }
+)
 public class UserVault {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  int id;
-    @Column(unique = true)
     private String name;
     private String password;
     private LocalDate createdAt;

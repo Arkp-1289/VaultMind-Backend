@@ -19,7 +19,7 @@ public class UserNotesService {
     @Autowired
     UserNotesRepo userNotesRepo;
 
-    public ResponseEntity<UserNotes>   insertNotes(User loggedUser, UserNotesRequest userNotesRequest) {
+    public ResponseEntity<String>   insertNotes(User loggedUser, UserNotesRequest userNotesRequest) {
         System.out.println("user-service: "+loggedUser);
         UserNotes userNotes = new UserNotes();
         userNotes.setTitle(userNotesRequest.getTitle());
@@ -28,7 +28,7 @@ public class UserNotesService {
         userNotesRepo.save(userNotes);
 
 
-        return new ResponseEntity<>(userNotes, HttpStatus.OK);
+        return new ResponseEntity<>("Notes added Successfully", HttpStatus.OK);
     }
 
     public ResponseEntity<List<UserNotesDto>> getNotes(User loggedUser) {

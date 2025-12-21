@@ -26,7 +26,7 @@ public class UserNotesController {
     JwtService jwtService;
 
     @PostMapping("/notes")
-    public ResponseEntity<UserNotes> insertNotes(@AuthenticationPrincipal User loggeduser,
+    public ResponseEntity<String> insertNotes(@AuthenticationPrincipal User loggeduser,
                                                  @RequestBody UserNotesRequest userNotesRequest){
 
        return  userNotesService.insertNotes(loggeduser,userNotesRequest);

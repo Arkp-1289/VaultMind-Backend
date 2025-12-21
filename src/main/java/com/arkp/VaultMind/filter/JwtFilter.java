@@ -46,7 +46,6 @@ public class JwtFilter extends OncePerRequestFilter {
         if (userName!=null && SecurityContextHolder.getContext().getAuthentication()==null){
             UserDetails userDetails= userDetailService.loadUserByUsername(userName);
             System.out.println("userdetails: "+userDetails.getUsername());
-
             if (jwtService.isValidToken(token,userDetails)){
                 System.out.println("valid: "+ " True");
                 User user=  userDetailService.getUserEntityByUsername(userName);
@@ -56,6 +55,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
+        System.out.println("Jwt filter ended");
         filterChain.doFilter(request,response);
 
     }
