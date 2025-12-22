@@ -41,7 +41,7 @@ public class VaultService {
 
     public ResponseEntity<String> setkey(User loggedUser, String masterKey,String newKey) {
         if (!verifyKey(masterKey, loggedUser.getHashKey())) {
-            return new ResponseEntity<>("Key is incorrect!", HttpStatus.OK);
+            return new ResponseEntity<>("Key is incorrect!", HttpStatus.UNAUTHORIZED);
         }
         try {
             String hashedKey = hashKey(newKey);

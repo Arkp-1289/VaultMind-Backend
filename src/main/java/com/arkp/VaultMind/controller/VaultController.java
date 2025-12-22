@@ -20,7 +20,7 @@ public class VaultController {
 
 
 
-    @PostMapping("/key")
+    @PostMapping("update/key")
     public ResponseEntity<String> UpdateMasterKey(@AuthenticationPrincipal User loggedUser, @RequestBody UpdateKeyReqDto updateKeyReqDto){
         try {
             return  vaultService.setkey(loggedUser,updateKeyReqDto.getOldKey().trim(), updateKeyReqDto.getNewKey().trim());
