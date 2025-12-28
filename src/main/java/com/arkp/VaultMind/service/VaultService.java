@@ -1,8 +1,8 @@
 package com.arkp.VaultMind.service;
 
-import com.arkp.VaultMind.dto.UpdateVaultReqDto;
-import com.arkp.VaultMind.dto.VaultReqDto;
-import com.arkp.VaultMind.dto.VaultResDto;
+import com.arkp.VaultMind.dto.vault.UpdateVaultReqDto;
+import com.arkp.VaultMind.dto.vault.VaultReqDto;
+import com.arkp.VaultMind.dto.vault.VaultResDto;
 import com.arkp.VaultMind.model.User;
 import com.arkp.VaultMind.model.UserVault;
 import com.arkp.VaultMind.repo.AuthRepo;

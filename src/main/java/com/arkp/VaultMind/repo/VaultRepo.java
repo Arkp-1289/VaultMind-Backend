@@ -1,6 +1,6 @@
 package com.arkp.VaultMind.repo;
 
-import com.arkp.VaultMind.dto.VaultResDto;
+import com.arkp.VaultMind.dto.vault.VaultResDto;
 import com.arkp.VaultMind.model.User;
 import com.arkp.VaultMind.model.UserVault;
 import jakarta.transaction.Transactional;

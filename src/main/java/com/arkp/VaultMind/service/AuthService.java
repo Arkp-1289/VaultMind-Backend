@@ -1,7 +1,7 @@
 package com.arkp.VaultMind.service;
 
 
-import com.arkp.VaultMind.dto.RegisterRequest;
+import com.arkp.VaultMind.dto.auth.RegisterRequest;
 import com.arkp.VaultMind.model.User;
 import com.arkp.VaultMind.repo.AuthRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class AuthService {

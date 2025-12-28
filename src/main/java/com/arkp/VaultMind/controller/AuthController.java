@@ -1,8 +1,8 @@
 package com.arkp.VaultMind.controller;
 
 
-import com.arkp.VaultMind.dto.LoginRequest;
-import com.arkp.VaultMind.dto.RegisterRequest;
+import com.arkp.VaultMind.dto.auth.LoginRequest;
+import com.arkp.VaultMind.dto.auth.RegisterRequest;
 import com.arkp.VaultMind.model.User;
 import com.arkp.VaultMind.service.AuthService;
 import com.arkp.VaultMind.service.JwtService;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")

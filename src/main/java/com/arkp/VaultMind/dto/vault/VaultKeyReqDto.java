@@ -1,4 +1,4 @@
-package com.arkp.VaultMind.dto;
+package com.arkp.VaultMind.dto.vault;
 
 public class VaultKeyReqDto {
     String masterKey;

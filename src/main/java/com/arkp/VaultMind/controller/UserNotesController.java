@@ -1,9 +1,8 @@
 package com.arkp.VaultMind.controller;
 
-import com.arkp.VaultMind.dto.UserNotesRequest;
-import com.arkp.VaultMind.dto.UserNotesDto;
+import com.arkp.VaultMind.dto.notes.UserNotesRequest;
+import com.arkp.VaultMind.dto.notes.UserNotesDto;
 import com.arkp.VaultMind.model.User;
-import com.arkp.VaultMind.model.UserNotes;
 import com.arkp.VaultMind.service.JwtService;
 import com.arkp.VaultMind.service.UserNotesService;
 import org.springframework.beans.factory.annotation.Autowired;

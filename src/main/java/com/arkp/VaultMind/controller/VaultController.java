@@ -1,6 +1,6 @@
 package com.arkp.VaultMind.controller;
 
-import com.arkp.VaultMind.dto.*;
+import com.arkp.VaultMind.dto.vault.*;
 import com.arkp.VaultMind.model.User;
 import com.arkp.VaultMind.service.VaultService;
 import org.springframework.beans.factory.annotation.Autowired;

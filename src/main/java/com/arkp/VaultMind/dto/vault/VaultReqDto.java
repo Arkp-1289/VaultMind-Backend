@@ -1,18 +1,22 @@
-package com.arkp.VaultMind.dto;
+package com.arkp.VaultMind.dto.vault;
 
-public class UpdateVaultReqDto {
-    private  int id;
+public class VaultReqDto {
     private String name;
     private String password;
     private String masterKey;
 
-
-    public int getId() {
-        return id;
+    public VaultReqDto(String name, String password, String masterKey) {
+        this.name = name;
+        this.password = password;
+        this.masterKey = masterKey;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getMasterKey() {
+        return masterKey;
+    }
+
+    public void setMasterKey(String masterKey) {
+        this.masterKey = masterKey;
     }
 
     public String getName() {
@@ -31,11 +35,5 @@ public class UpdateVaultReqDto {
         this.password = password;
     }
 
-    public String getMasterKey() {
-        return masterKey;
-    }
 
-    public void setMasterKey(String masterKey) {
-        this.masterKey = masterKey;
-    }
 }
